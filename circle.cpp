@@ -1,5 +1,9 @@
 #include "circle.h"
 
+circle::circle()
+{
+
+}
 //Конструктор
 circle::circle(double r)
 {

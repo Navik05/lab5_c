@@ -10,29 +10,30 @@ double block_double();
 
 int main()
 {
-    int min, max, i;
-    double sides[N], p = 0, s = 0;
-    square one = NULL;
-    circle two = NULL;
+    int min, max, i, f, j = 0, k = 0;
+    double sides[N], p, s;
+    square one[N];
+    circle two[N][N];
     triangle three;
     setlocale(LC_ALL, "Rus");
     //Полный цикл программы
     do {
+        f = 1; p = 0; s = 0;
         printf("\n1-квадрат\n2-круг\n3-треугольник\nВыберите фигуру:");
         min = 1; max = 3;
-        one.setType(block_int(min, max));
+        one[j].setType(block_int(min, max));
         //Ввод и обработка
-        switch (one.getType())
+        switch (one[j].getType())
         {
         case 1:
             printf("Длина стороны квадрата:");
-            one = square(block_double());
-            one.workSquare();
+            one[j] = square(block_double());
+            one[j].workSquare();
             break;
         case 2:
             printf("Радиус круга:");
-            two = circle(block_double());
-            two.workCircle();
+            two[j][k] = circle(block_double());
+            two[j][k].workCircle();
             break;
         case 3:
             printf("Длина сторон треугольника:");
@@ -41,48 +42,61 @@ int main()
                 sides[i] = block_double();
             }
             three = triangle(sides);
-            three.workTriangle();
+            try
+            {
+                three.workTriangle();
+            }
+            catch (const char* error_message)
+            {
+                std::cout << error_message << std::endl;
+                f = 0;
+            }
             break;
         default:;
         }
         //Вывод результатов
-        printf("Фигура: ");
-        switch (one.getType())
+        if (f == 1)
         {
-        case 1:
-            printf("квадрат");
-            printf("\nДиагональ: %f", one.getDiagonal());
-            s = one.getArea();
-            p = one.getPerimeter();
-            break;
-        case 2:
-            printf("круг");
-            printf("\nДиаметр: %f", two.getD());
-            s = two.getArea();
-            p = two.getPerimeter();
-            break;
-        case 3:
-            switch (view(three))
+            printf("Фигура: ");
+            switch (one[j].getType())
             {
             case 1:
-                printf("равносторонний");
+                printf("квадрат");
+                printf("\nДиагональ: %f", one[j].getDiagonal());
+                s = one[j].getArea();
+                p = one[j].getPerimeter();
                 break;
             case 2:
-                printf("равнобедренный");
+                printf("круг");
+                printf("\nДиаметр: %f", two[j][k].getD());
+                s = two[j][k].getArea();
+                p = two[j][k].getPerimeter();
                 break;
             case 3:
-                printf("разносторонний");
+                switch (view(three))
+                {
+                case 1:
+                    printf("равносторонний");
+                    break;
+                case 2:
+                    printf("равнобедренный");
+                    break;
+                case 3:
+                    printf("разносторонний");
+                    break;
+                default:;
+                }
+                printf(" треугольник");
+                s = three.getArea();
+                p = three.getPerimeter();
                 break;
             default:;
             }
-            printf(" треугольник");
-            s = three.getArea();
-            p = three.getPerimeter();
-            break;
-        default:;
+            printf("\nПлощадь: %f", s);
+            printf("\nПериметр: %f\n", p);
+            j++;
+            k++;
         }
-        printf("\nПлощадь: %f", s);
-        printf("\nПериметр: %f\n", p);
         printf("\nНажмите ESC для выхода или любую клавишу для продолжения\n");
     } while (_getch() != 27);
 }

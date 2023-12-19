@@ -1,5 +1,9 @@
 #include "square.h"
 
+square::square()
+{
+
+}
 //Конструткор
 square::square(double a)
 {

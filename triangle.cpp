@@ -20,4 +20,8 @@ void triangle::workTriangle()
     perimeter = sides[0] + sides[1] + sides[2];
     p = perimeter / 2;
     area = sqrtf(p * (p - sides[0]) * (p - sides[1]) * (p - sides[2]));
+    if (area == 0)
+    {
+        throw "Такого треугольника не существует";
+    }
 }
